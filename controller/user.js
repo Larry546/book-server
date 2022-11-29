@@ -1,6 +1,6 @@
 import User from "../model/user.js";
 
-const createUser = async (req, res) => {
+const register = async (req, res) => {
   const user = req.body;
   const name = await User.findOne({username: user.username});
   if (name) {
@@ -8,17 +8,23 @@ const createUser = async (req, res) => {
     return;
   }
 
-  const resUser = await User.create(user);
-  res.json(resUser);
+  await User.create(user);
+  res.status(200);
 };
 
-// test
-const findAllUser = async (req, res) => {
-   const users =  await User.find();
-   res.json(users);
+const login = async (req, res) => {
+  const info = req.body;
+  const user = await User.findOne({username: info.username, passport: info.passport});
+
+  if (!user) {
+    res.status(403);
+    return;
+  }
+
+  res.status(200);
 }
 
 export default (app) => {
-  app.post("/user", createUser);
-  app.get("/user", findAllUser)
+  app.post("/register", register);
+  app.post("/login", login)
 }
