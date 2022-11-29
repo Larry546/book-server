@@ -18,7 +18,7 @@ const login = async (req, res) => {
   const user = await User.findOne(
       {username: info.username, password: info.password});
 
-  if (!user) {
+  if (!user || req.session.user) {
     res.sendStatus(403);
     return;
   }
