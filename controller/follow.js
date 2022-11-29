@@ -18,7 +18,7 @@ const unfollow = async (req, res) => {
   res.json(result);
 }
 
-export default (app) = (req, res) => {
+export default (app) => {
   // todo
   app.post('/follow', follow);
   app.delete('/unfollow', unfollow);
