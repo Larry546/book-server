@@ -10,15 +10,15 @@ import LikeBookController from "./controller/likebook.js";
 import LikeListController from "./controller/likelist.js";
 import ReviewController from "./controller/review.js";
 
-const DB_URL_STRING = "mongodb+srv://root:sZGDfNnhr8bKQOKe@cs5610-book.bpfuirb.mongodb.net/?retryWrites=true&w=majority";
+const url = process.env.BOOK_DB_CONNECTION_STRING;
 
-mongoose.connect(DB_URL_STRING)
+mongoose.connect(url)
 
 const app = express();
 
 app.use(cors());
 app.use(session({
-  secret: "12345-67890-98765-54321",
+  secret: process.env.BOOK_SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {secure: false}
@@ -36,5 +36,5 @@ LikeBookController(app);
 LikeListController(app);
 ReviewController(app);
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
 
