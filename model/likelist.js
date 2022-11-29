@@ -5,7 +5,7 @@ const likelist = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-  booklist: {
+  bookList: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "BookList"
   }
