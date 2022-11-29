@@ -1,4 +1,5 @@
 import User from "../model/user.js";
+import {authUser} from "../auth.js";
 
 const register = async (req, res) => {
   const user = req.body;
@@ -14,13 +15,20 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const info = req.body;
-  const user = await User.findOne({username: info.username, password: info.password});
+  const user = await User.findOne(
+      {username: info.username, password: info.password});
 
   if (!user) {
     res.sendStatus(403);
     return;
   }
+  req.session.user = user;
 
+  res.sendStatus(200);
+}
+
+const logout = async (req, res) => {
+  req.session.destroy();
   res.sendStatus(200);
 }
 
@@ -40,6 +48,7 @@ const profile = async (req, res) => {
 
 export default (app) => {
   app.post('/register', register);
-  app.post('/login', login)
+  app.post('/login', login);
   app.post('/profile/:uid', profileById);
+  app.post('/logout', authUser, logout);
 }
