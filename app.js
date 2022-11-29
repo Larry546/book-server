@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from "mongoose";
 import cors from "cors";
+import session from "express-session";
 
 import UserController from "./controller/user.js";
 import BookListController from "./controller/booklist.js";
@@ -15,7 +16,13 @@ mongoose.connect(DB_URL_STRING)
 
 const app = express();
 
-app.use(cors());
+app.use(cors({credentials: true, origin: ''}));
+app.use(session({
+  secret: "12345-67890-98765-54321",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: false}
+}))
 app.use(express.json());
 
 app.get('', (req, res) => {
