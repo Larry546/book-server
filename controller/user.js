@@ -2,14 +2,14 @@ import User from "../model/user.js";
 
 const register = async (req, res) => {
   const user = req.body;
-  const name = await User.findOne({username: user.username});
-  if (name) {
-    res.status(403);
+  const checkUser = await User.findOne({username: user.username});
+  if (checkUser) {
+    res.sendStatus(403);
     return;
   }
 
   await User.create(user);
-  res.status(200);
+  res.sendStatus(200);
 };
 
 const login = async (req, res) => {
@@ -17,11 +17,11 @@ const login = async (req, res) => {
   const user = await User.findOne({username: info.username, password: info.password});
 
   if (!user) {
-    res.status(403);
+    res.sendStatus(403);
     return;
   }
 
-  res.status(200);
+  res.sendStatus(200);
 }
 
 const profileById = async (req, res) => {
