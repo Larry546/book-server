@@ -49,6 +49,6 @@ const profile = async (req, res) => {
 export default (app) => {
   app.post('/register', register);
   app.post('/login', login);
-  app.post('/profile/:uid', profileById);
+  app.get('/profile/:uid', profileById);
   app.post('/logout', authUser, logout);
 }
