@@ -10,15 +10,19 @@ import LikeBookController from "./controller/likebook.js";
 import LikeListController from "./controller/likelist.js";
 import ReviewController from "./controller/review.js";
 
-const url = process.env.BOOK_DB_CONNECTION_STRING;
+let url = process.env.BOOK_DB_CONNECTION_STRING || 'mongodb://localhost:27017/book';
 
 mongoose.connect(url)
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3000'
+}))
+
 app.use(session({
-  secret: process.env.BOOK_SESSION_SECRET,
+  secret: process.env.BOOK_SESSION_SECRET || "1234567899",
   resave: false,
   saveUninitialized: true,
   cookie: {secure: false}

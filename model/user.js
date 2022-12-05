@@ -11,6 +11,10 @@ const user = mongoose.Schema({
     require: true,
   },
   fullname: String,
+  bio: String,
+  location: String,
+  dob: Date,
+  website: String,
   email: String,
   role: {
     type: String,
