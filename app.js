@@ -2,7 +2,6 @@ import express from 'express'
 import mongoose from "mongoose";
 import cors from "cors";
 import session from "express-session";
-import MongoStore from "connect-mongo";
 
 import UserController from "./controller/user.js";
 import BookListController from "./controller/booklist.js";
@@ -27,7 +26,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {secure: false},
-  store: MongoStore.create({mongoUrl: MONGO_URL})
 }))
 app.use(express.json());
 
