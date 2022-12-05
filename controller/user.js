@@ -23,8 +23,6 @@ const login = async (req, res) => {
     return;
   }
   req.session.user = user;
-  console.log(req.session);
-
   res.json(user);
 }
 
@@ -50,9 +48,6 @@ const profile = async (req, res) => {
 const editProfile = async (req, res) => {
   const uid = req.params.uid;
   const userInfo = req.body;
-  console.log(req.session.user)
-  console.log(uid)
-  console.log(userInfo)
 
   if (uid !== req.session.user._id) {
     res.sendStatus(403);

@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from "mongoose";
 import cors from "cors";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 import UserController from "./controller/user.js";
 import BookListController from "./controller/booklist.js";
@@ -10,9 +11,9 @@ import LikeBookController from "./controller/likebook.js";
 import LikeListController from "./controller/likelist.js";
 import ReviewController from "./controller/review.js";
 
-let url = process.env.BOOK_DB_CONNECTION_STRING || 'mongodb://localhost:27017/book';
+let MONGO_URL = process.env.BOOK_DB_CONNECTION_STRING || 'mongodb://localhost:27017/book';
 
-mongoose.connect(url)
+mongoose.connect(MONGO_URL)
 
 const app = express();
 
@@ -25,7 +26,8 @@ app.use(session({
   secret: process.env.BOOK_SESSION_SECRET || "1234567899",
   resave: false,
   saveUninitialized: true,
-  cookie: {secure: false}
+  cookie: {secure: false},
+  store: MongoStore.create({mongoUrl: MONGO_URL})
 }))
 app.use(express.json());
 
