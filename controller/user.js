@@ -49,7 +49,7 @@ const editProfile = async (req, res) => {
   const uid = req.params.uid;
   const userInfo = req.body;
 
-  if (uid !== req.session.user._id) {
+  if (!req.session && !req.session['user'] && uid !== req.session['user']._id) {
     res.sendStatus(403);
   }
   const user = await User.findByIdAndUpdate(uid, {$set: userInfo}, {new: true});
