@@ -25,7 +25,7 @@ app.use(session({
   secret: process.env.BOOK_SESSION_SECRET || "1234567899",
   resave: false,
   saveUninitialized: true,
-  cookie: {secure: false},
+  cookie: {secure: false}
 }))
 app.use(express.json());
 
