@@ -47,12 +47,13 @@ const profile = async (req, res) => {
 }
 
 const editProfile = async (req, res) => {
+  const uid = req.params.uid;
   const userInfo = req.body;
-  if (userInfo._id !== req.session.user._id) {
+
+  if (uid !== req.session.user._id) {
     res.sendStatus(403);
   }
-  const user = await User.findByIdAndUpdate(userInfo._id, {$set: userInfo}, {new: true});
-
+  const user = await User.findByIdAndUpdate(uid, {$set: userInfo}, {new: true});
   res.json(user);
 }
 
@@ -60,7 +61,7 @@ export default (app) => {
   app.post('/register', register);
   app.post('/login', login);
   app.get('/profile/:uid', profileById);
-  app.post('/logout', authUser, logout);
+  app.post('/logout', logout);
 
-  app.post('/user/updateProfile', editProfile);
+  app.put('/user/updateProfile/:uid', editProfile);
 }
