@@ -23,6 +23,7 @@ const login = async (req, res) => {
     return;
   }
   req.session.user = user;
+  console.log(req.session);
 
   res.json(user);
 }
