@@ -50,7 +50,7 @@ const editProfile = async (req, res) => {
   const userInfo = req.body;
   console.log(uid);
   console.log(userInfo);
-  console.log(req.session)
+  console.log(req.session['user'])
 
   if (!req.session || !req.session['user'] || uid !== req.session['user']._id) {
     res.sendStatus(403);
