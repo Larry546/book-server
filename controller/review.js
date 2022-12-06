@@ -13,7 +13,7 @@ const createReview = async (req, res) => {
 }
 
 const getReviewsByBook = async (req, res) => {
-  const book = req.params.isbn;
+  const book = req.params['isbn'];
   const reviews = await Review.find({book}).sort({createdAt: -1}).populate('user').exec();
   res.json(reviews);
 }

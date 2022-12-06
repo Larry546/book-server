@@ -12,7 +12,7 @@ const likeBook = async (req, res) => {
 }
 
 const unlikeBook = async (req, res) => {
-  const id = req.params.lbid;
+  const id = req.params['lbid'];
   const findLike = await Likebook.findById(id);
   if (!findLike || !req.session['user'] || findLike.user.toString() !== req.session['user']._id) {
     res.sendStatus(403);
@@ -35,8 +35,8 @@ const getLikesByBook = async (req, res) => {
 }
 
 const getUserLikeBook = async (req, res) => {
-  const user = req.params.uid;
-  const book = req.params.isbn;
+  const user = req.params['uid'];
+  const book = req.params['isbn'];
   if (!req.session['user'] || req.session['user']._id !== user) {
     res.sendStatus(403);
     return;

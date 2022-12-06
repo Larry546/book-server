@@ -33,7 +33,7 @@ const logout = async (req, res) => {
 
 const profileById = async (req, res) => {
   // todo
-  const uid = req.params.uid;
+  const uid = req.params['uid'];
   const user = await User.findById(uid, {password: false});
   res.json(user);
 }
@@ -46,7 +46,7 @@ const profile = async (req, res) => {
 }
 
 const editProfile = async (req, res) => {
-  const uid = req.params.uid;
+  const uid = req.params['uid'];
   const userInfo = req.body;
 
   if (!req.session || !req.session['user'] || uid !== req.session['user']._id) {
