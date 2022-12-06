@@ -22,7 +22,7 @@ const login = async (req, res) => {
     res.sendStatus(403);
     return;
   }
-  req.session['user'] = user;
+  req.session.user = user;
   res.json(user);
 }
 
