@@ -37,10 +37,6 @@ const getLikesByBook = async (req, res) => {
 const getUserLikeBook = async (req, res) => {
   const user = req.params['uid'];
   const book = req.params['isbn'];
-  console.log(user);
-  console.log(book);
-  console.log(req.session['user']);
-  console.log(req.session['user']._id)
   if (!req.session['user'] || req.session['user']._id !== user) {
     res.sendStatus(403);
     return;
