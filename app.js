@@ -13,8 +13,6 @@ import ReviewController from "./controller/review.js";
 
 let MONGO_URL = process.env.BOOK_DB_CONNECTION_STRING || 'mongodb://localhost:27017/book';
 
-console.log(MONGO_URL);
-
 mongoose.connect(MONGO_URL)
 
 const app = express();
@@ -23,8 +21,6 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000'
 }))
-
-console.log(process.env.BOOK_SESSION_SECRET);
 
 app.use(session({
   secret: process.env.BOOK_SESSION_SECRET || "1234567899",
@@ -38,8 +34,6 @@ app.use(express.json());
 app.get('', (req, res) => {
   res.send("Hello World!");
 })
-
-console.log("Hello!")
 
 UserController(app);
 BookListController(app);
