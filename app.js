@@ -12,8 +12,6 @@ import ReviewController from "./controller/review.js";
 
 let MONGO_URL = process.env.BOOK_DB_CONNECTION_STRING || 'mongodb://localhost:27017/book';
 
-console.log(process.env)
-
 mongoose.connect(MONGO_URL)
 
 const app = express();
