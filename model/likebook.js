@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const likebook = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "user"
   },
   book: String // isbn
 }, {collection: "likebook", timestamps: true})
 
-export default mongoose.model("LikeBook", likebook);
+export default mongoose.model("likebook", likebook);

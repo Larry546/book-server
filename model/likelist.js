@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const likelist = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "user"
   },
   bookList: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BookList"
+    ref: "booklist"
   }
 }, {collection: "likelist", timestamps: true})
 
-export default mongoose.model("LikeList", likelist);
+export default mongoose.model("likelist", likelist);
