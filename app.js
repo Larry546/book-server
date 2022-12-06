@@ -19,7 +19,7 @@ const app = express();
 
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000'
+  origin: "http://ec2-34-228-111-190.compute-1.amazonaws.com:3000"
 }))
 
 app.use(session({
