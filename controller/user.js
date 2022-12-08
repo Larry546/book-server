@@ -32,16 +32,9 @@ const logout = async (req, res) => {
 }
 
 const profileById = async (req, res) => {
-  // todo
   const uid = req.params['uid'];
-  const user = await User.findById(uid, {password: false});
-  res.json(user);
-}
-
-const profile = async (req, res) => {
-  // todo
-  const uid = "";
-  const user = await User.findById(uid, {password: false});
+  const user = await User.findById(uid,
+      {password: false, email: false, dob: false});
   res.json(user);
 }
 
@@ -60,8 +53,8 @@ const editProfile = async (req, res) => {
 export default (app) => {
   app.post('/register', register);
   app.post('/login', login);
-  app.get('/profile/:uid', profileById);
   app.post('/logout', logout);
 
+  app.get('/user/profile/:uid', profileById);
   app.put('/user/updateProfile/:uid', editProfile);
 }
