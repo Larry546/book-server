@@ -1,5 +1,4 @@
 import User from "../model/user.js";
-import {authUser} from "../auth.js";
 
 const register = async (req, res) => {
   const user = req.body;

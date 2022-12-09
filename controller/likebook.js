@@ -23,25 +23,15 @@ const unlikeBook = async (req, res) => {
 }
 
 const getLikeBooksByUser = async (req, res) => {
-  const uid = "";
+  const uid = req.params.uid;
   const lists = await Likebook.find({user: uid});
-  res.json(lists);
-}
-
-const getLikesByBook = async (req, res) => {
-  const book = "";
-  const lists = await Likebook.find({book});
   res.json(lists);
 }
 
 const getUserLikeBook = async (req, res) => {
   const user = req.params['uid'];
-  const book = req.params['isbn'];
-  if (!req.session['user'] || req.session['user']._id !== user) {
-    res.sendStatus(403);
-    return;
-  }
-  const like = await Likebook.find({user, book})
+  const isbn13 = req.params['isbn'];
+  const like = await Likebook.find({user, isbn13})
   res.json(like);
 }
 
@@ -50,6 +40,5 @@ export default (app) => {
   app.delete('/likebook/unlike/:lbid', unlikeBook);
   app.get('/likebook/user/:uid/book/:isbn', getUserLikeBook);
 
-  app.get('/getLikeBooksByUser', getLikeBooksByUser);
-  app.get('/getLikesByBook', getLikesByBook);
+  app.get('/likebook/getLikeBooksByUser/:uid', getLikeBooksByUser);
 }

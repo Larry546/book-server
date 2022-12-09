@@ -8,13 +8,15 @@ const createReview = async (req, res) => {
   }
 
   const result = await Review.create(review);
-  const newReview = await Review.find({_id: result._id}).populate('user').exec();
+  const newReview = await Review.find({_id: result._id}).populate('user',
+      "_id username fullname").exec();
   res.json(newReview);
 }
 
 const getReviewsByBook = async (req, res) => {
   const book = req.params['isbn'];
-  const reviews = await Review.find({book}).sort({createdAt: -1}).populate('user').exec();
+  const reviews = await Review.find({book}).sort({createdAt: -1}).populate(
+      'user', "_id username fullname").exec();
   res.json(reviews);
 }
 

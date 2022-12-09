@@ -5,7 +5,9 @@ const likebook = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
-  book: String // isbn
+  isbn13: String,
+  image: String,
+  title: String,
 }, {collection: "likebook", timestamps: true})
 
 export default mongoose.model("likebook", likebook);
