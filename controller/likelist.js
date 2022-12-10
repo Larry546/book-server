@@ -1,37 +1,46 @@
 import Likelist from "../model/likelist.js";
 
 const likeList = async (req, res) => {
-  // todo check user
-  const uid = "";
-  const lid = "";
-  const result = await Likelist.create({user: uid, bookList: lid});
+  const info = req.body;
+  if (!info || !req.session['user'] || info.user !== req.session['user']._id) {
+    res.sendStatus(403);
+    return;
+  }
+
+  const result = await Likelist.create(info);
   res.json(result);
 }
 
 const unlikeList = async (req, res) => {
-  // todo check user
-  const uid = "";
-  const lid = "";
-  const result = await Likelist.deleteOne({user: uid, bookList: lid});
-  res.json(result);
+  const id = req.params['llid'];
+  const findLike = await Likelist.findById(id);
+  if (!findLike || !req.session['user'] || findLike.user.toString()
+      !== req.session['user']._id) {
+    res.sendStatus(403);
+    return;
+  }
+  const status = await Likelist.deleteOne(findLike);
+  res.json(status);
 }
 
-const getLikeListsByUser = async (req, res) => {
-  const uid = "";
-  const lists = await Likelist.find({user: uid});
-  res.json(lists);
+const getUserLikeList = async (req, res) => {
+  const user = req.params['uid'];
+  const bookList = req.params['lid'];
+  const like = await Likelist.find({user, bookList});
+  res.json(like);
 }
 
-const getLikesByList = async (req, res) => {
-  const lid = "";
-  const lists = await Likelist.find({bookList: lid});
+const getLikeListByUser = async (req, res) => {
+  const uid = req.params.uid;
+  const lists = await Likelist.find({user: uid}).sort({createdAt: -1}).populate(
+      'bookList', 'title').exec();
+
   res.json(lists);
 }
 
 export default (app) => {
-  // todo
-  app.post('/likeList', likeList);
-  app.delete('/unlikeList', unlikeList);
-  app.get('/getLikeListByUser', getLikeListsByUser);
-  app.get('/getLikesByList', getLikesByList);
+  app.post('/likelist/like', likeList);
+  app.delete('/likelist/unlike/:llid', unlikeList);
+  app.get('/likelist/user/:uid/list/:lid', getUserLikeList);
+  app.get('/likelist/getLikeListsByUser/:uid', getLikeListByUser);
 }

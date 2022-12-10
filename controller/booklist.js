@@ -2,18 +2,14 @@ import BookList from "../model/booklist.js"
 
 const findBookListByUser = async (req, res) => {
   const userId = req.params.uid;
-  if (!userId || !req.session['user'] || userId !== req.session['user']._id) {
-    res.sendStatus(403);
-    return;
-  }
-
   const lists = await BookList.find({creator: userId}).sort({createdAt: -1});
   res.json(lists);
 }
 
 const createBookList = async (req, res) => {
   const info = req.body;
-  if (!info || !req.session['user'] || info.creator !== req.session['user']._id) {
+  if (!info || !req.session['user'] || info.creator
+      !== req.session['user']._id) {
     res.sendStatus(403);
     return;
   }
@@ -26,7 +22,8 @@ const deleteBookList = async (req, res) => {
   const lid = req.params.lid;
   const list = await BookList.findById(lid);
 
-  if (!list || !req.session['user'] || list.creator.toString() !== req.session['user']._id) {
+  if (!list || !req.session['user'] || list.creator.toString()
+      !== req.session['user']._id) {
     res.sendStatus(403);
     return;
   }
@@ -36,12 +33,19 @@ const deleteBookList = async (req, res) => {
 }
 
 const getLatestBookList = async (req, res) => {
-  const lists = await BookList.find({}, {books: false}).sort({createdAt: -1}).limit(4);
+  const lists = await BookList.find({}, {books: false}).sort(
+      {createdAt: -1}).limit(4);
   res.json(lists);
 }
 
 const addBookToList = async (req, res) => {
   const lid = req.params.lid;
+  const list = await BookList.findById(lid);
+  if (!list || !req.session['user'] || req.session['user']._id
+      !== list.creator.toString()) {
+    res.sendStatus(403);
+    return;
+  }
   const book = req.body;
   const result = await BookList.updateOne({_id: lid}, {$push: {books: book}});
   res.json(result);
@@ -51,6 +55,22 @@ const getList = async (req, res) => {
   const lid = req.params.lid;
   const list = await BookList.findById(lid).populate('creator', "fullname");
   res.json(list);
+}
+
+const deleteBookInList = async (req, res) => {
+  const lid = req.params.lid;
+  const bid = req.params.bid;
+
+  const list = await BookList.findById(lid);
+  if (!list || !req.session['user'] || list.creator.toString()
+      !== req.session['user']._id) {
+    res.sendStatus(403);
+    return;
+  }
+
+  const result = await BookList.updateOne({_id: lid},
+      {$pull: {books: {_id: bid}}});
+  res.json(result)
 }
 
 export default (app) => {
@@ -65,4 +85,6 @@ export default (app) => {
   app.put('/booklist/addBookToList/:lid', addBookToList);
 
   app.get('/booklist/getList/:lid', getList);
+
+  app.delete('/booklist/delete/:lid/:bid', deleteBookInList);
 }

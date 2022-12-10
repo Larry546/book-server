@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const booklist = mongoose.Schema({
   title: {
     type: String,
-    require: true,
+    required: true,
     unique: true
   },
   intro: String,

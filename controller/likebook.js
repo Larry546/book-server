@@ -24,7 +24,7 @@ const unlikeBook = async (req, res) => {
 
 const getLikeBooksByUser = async (req, res) => {
   const uid = req.params.uid;
-  const lists = await Likebook.find({user: uid});
+  const lists = await Likebook.find({user: uid}).sort({createdAt: -1});
   res.json(lists);
 }
 
