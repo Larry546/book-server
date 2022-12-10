@@ -18,10 +18,10 @@ const app = express();
 
 app.use(cors({
   credentials: true,
-  origin: [process.env.REACT_ORIGIN, 'http://localhost:3000']
+  origin: [process.env.BOOK_FRONTEND, 'http://localhost:3000']
 }))
 
-console.log(process.env.REACT_ORIGIN);
+console.log(process.env.BOOK_FRONTEND);
 
 app.use(session({
   secret: process.env.BOOK_SESSION_SECRET || "1234567899",
