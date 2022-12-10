@@ -21,8 +21,6 @@ app.use(cors({
   origin: [process.env.BOOK_FRONTEND, 'http://localhost:3000']
 }))
 
-console.log(process.env);
-
 app.use(session({
   secret: process.env.BOOK_SESSION_SECRET || "1234567899",
   resave: false,
